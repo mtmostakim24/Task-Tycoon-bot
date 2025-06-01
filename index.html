@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task Tycoon Bot</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+    body { background: #f2f2f2; padding-bottom: 80px; }
+    header {
+      background: white; padding: 15px 10px;
+      display: flex; justify-content: space-between;
+      align-items: center; font-weight: bold; border-bottom: 1px solid #ddd;
+    }
+    header .title { color: #007bff; font-size: 18px; }
+    header .balance-display { font-size: 14px; color: green; }
+    .profile { text-align: center; padding: 20px; }
+    .profile img { width: 80px; height: 80px; border-radius: 50%; }
+    .name { font-size: 18px; margin: 5px 0; color: #007bff; }
+    .balance { color: gray; }
+    .usd { font-size: 20px; margin: 10px 0; }
+    .card { background: white; margin: 15px; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+    .progress { height: 10px; background: #eee; border-radius: 5px; margin-top: 10px; }
+    .bar { height: 10px; background: #007bff; width: 0%; border-radius: 5px; transition: 0.3s; }
+    .nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: white; border-top: 1px solid #ccc; padding: 10px 0; }
+    .nav div { text-align: center; font-size: 14px; cursor: pointer; color: gray; }
+    .nav img { width: 24px; height: 24px; display: block; margin: 0 auto 5px; filter: grayscale(1); }
+    .nav .active { color: #007bff; font-weight: bold; }
+    .nav .active img { filter: none; }
+    .button { background: #007bff; color: white; padding: 10px; text-align: center; border-radius: 5px; margin-top: 10px; cursor: pointer; }
+    input, select { width: 100%; padding: 8px; margin-top: 8px; border: 1px solid #ccc; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="title">Task Tycoon Bot</div>
+    <div class="balance-display">Balance: <span id="header-balance">$0.00</span></div>
+  </header>
+
+  <div class="profile">
+    <img src="https://i.ibb.co/7tFnp0nw/male-face-avatar-icon-set-flat-design-social-media-profiles-1281173-3806-0.jpg" alt="Profile">
+    <div class="name" id="username">Username</div>
+    <div class="balance">Balance:</div>
+    <div class="usd" id="usd-balance">USD $0.00</div>
+    <div class="balance">Referrals: <span id="ref-count">0</span></div>
+  </div>
+
+  <div class="card" id="home-card">
+    <h3 style="color: #007bff;">Today's Tasks</h3>
+    <p><b>Total Tasks:</b> <span id="total">100</span></p>
+    <p><b>Completed:</b> <span id="completed">0</span></p>
+    <p><b>Remaining:</b> <span id="remaining">100</span></p>
+    <div class="progress"><div class="bar" id="progress-bar"></div></div>
+  </div>
+
+  <div class="card">
+    <h3 style="color: green;">Earnings</h3>
+    <p><b>Today's Earnings:</b> USD $<span id="todays-earning">0.00</span></p>
+    <p><b>Lifetime Earnings:</b> USD $<span id="lifetime-earning">0.00</span></p>
+  </div>
+
+  <div class="card" id="withdraw" style="display:none;">
+    <h3 style="color: #007bff;">Withdraw</h3>
+    <p>Available Balance: <b>USD $<span id="available">0.00</span></b></p>
+    <p>Withdrawal Method</p>
+    <select>
+      <option>Select a method</option>
+      <option>Bkash $50</option>
+      <option>Nagad $50</option>
+      <option>Payeer $100</option>
+      <option>USDT (TRC20) $100</option>
+    </select>
+    <p>Amount</p>
+    <input type="text" id="withdraw-amount" placeholder="Enter amount" />
+    <p>Withdrawal Address</p>
+    <input type="text" placeholder="Enter wallet address" />
+    <div class="button" onclick="submitWithdrawal()">Submit Withdrawal</div>
+  </div>
+
+  <div class="card" id="earn" style="display:none;">
+    <div class="name">আপনি বিজ্ঞাপনগুলি দেখে উপার্জন করুন। টাস্কটি সম্পূর্ণ করতে 30 সেকেন্ড Ads এ ঘুরাঘুরি করুন এবং প্রতি টাস্কে $0.05 উপার্জন করুন!</div>
+    <h3>Today's Tasks</h3>
+    <p>Total Tasks: <span id="etotal">100</span></p>
+    <p>Completed: <span id="ecompleted">0</span></p>
+    <p>Remaining: <span id="eremaining">100</span></p>
+    <div class="button" onclick="startTask()">Start Earning ▶</div>
+    <div class="button" onclick="copyReferralLink()">Refer & Earn</div>
+  </div>
+
+  <div class="nav">
+    <div id="nav-home" class="active" onclick="show('home')">
+      <img src="https://i.ibb.co/Xk62qkyP/icon-156755-1280.png" alt="Home" />
+      <div>Home</div>
+    </div>
+    <div id="nav-earn" onclick="show('earn')">
+      <img src="https://i.ibb.co/8n4w6sFc/Polish-20250527-012543531.jpg" alt="Earn" />
+      <div>Earn</div>
+    </div>
+    <div id="nav-withdraw" onclick="show('withdraw')">
+      <img src="https://i.ibb.co/jkvRWMHL/10176028.png" alt="Withdraw" />
+      <div>Withdraw</div>
+    </div>
+    <div id="nav-profile" onclick="show('home')">
+      <img src="https://i.ibb.co/WNW4Cdhz/user-circles-set-78370-4704.jpg" alt="Profile" />
+      <div>Profile</div>
+    </div>
+  </div>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+    const tg = window.Telegram.WebApp;
+    const userId = tg.initDataUnsafe?.user?.id || Math.floor(Math.random() * 1000000);
+    const username = tg.initDataUnsafe?.user?.username || "Guest";
+    const ref = new URLSearchParams(window.location.search).get("start");
+
+    const today = new Date().toLocaleDateString();
+
+    let userData = JSON.parse(localStorage.getItem("MTEarningData")) || {
+      userId, username, referrals: 0, lifetimeEarning: 0
+    };
+
+    let data = JSON.parse(localStorage.getItem("dailyEarningData")) || {
+      date: today, completed: 0, remaining: 100, todaysEarning: 0
+    };
+
+    if (data.date !== today) {
+      data = { date: today, completed: 0, remaining: 100, todaysEarning: 0 };
+    }
+
+    if (ref && ref.startsWith("ref_")) {
+      const refId = ref.split("ref_")[1];
+      const referredUsers = JSON.parse(localStorage.getItem(`referrals_${refId}`)) || [];
+      if (!referredUsers.includes(userId)) {
+        referredUsers.push(userId);
+        localStorage.setItem(`referrals_${refId}`, JSON.stringify(referredUsers));
+        if (userId !== refId) {
+          const refCount = parseInt(localStorage.getItem(`ref_count_${refId}`) || "0");
+          localStorage.setItem(`ref_count_${refId}`, refCount + 1);
+        }
+      }
+    }
+
+    const refCount = parseInt(localStorage.getItem(`ref_count_${userId}`) || "0");
+    userData.referrals = refCount;
+
+    function updateStorage() {
+      localStorage.setItem("MTEarningData", JSON.stringify(userData));
+      localStorage.setItem("dailyEarningData", JSON.stringify(data));
+    }
+
+    function updateDisplay() {
+      document.getElementById("username").innerText = username;
+      document.getElementById("completed").innerText = data.completed;
+      document.getElementById("remaining").innerText = data.remaining;
+      document.getElementById("ecompleted").innerText = data.completed;
+      document.getElementById("eremaining").innerText = data.remaining;
+      document.getElementById("todays-earning").innerText = data.todaysEarning.toFixed(2);
+      document.getElementById("lifetime-earning").innerText = userData.lifetimeEarning.toFixed(2);
+      document.getElementById("usd-balance").innerText = "USD $" + userData.lifetimeEarning.toFixed(2);
+      document.getElementById("available").innerText = userData.lifetimeEarning.toFixed(2);
+      document.getElementById("header-balance").innerText = "$" + userData.lifetimeEarning.toFixed(2);
+      document.getElementById("progress-bar").style.width = (data.completed / 50 * 100) + "%";
+      document.getElementById("ref-count").innerText = userData.referrals;
+    }
+
+    function startTask() {
+      if (data.completed >= 100) return alert("You have completed all tasks for today!");
+      const start = Date.now();
+      const ad = window.open("https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default", "_blank");
+      const check = setInterval(() => {
+        if (ad.closed) {
+          clearInterval(check);
+          const duration = (Date.now() - start) / 1000;
+          if (duration >= 30) {
+            data.completed++;
+            data.remaining--;
+            data.todaysEarning += 0.05;
+            userData.lifetimeEarning += 0.05;
+            updateStorage();
+            updateDisplay();
+            alert("✅ Task completed! $0.05 added.");
+          } else {
+            alert("⏱️ You must view the ad for at least 30 seconds.");
+          }
+        }
+      }, 500);
+    }
+
+    function submitWithdrawal() {
+      const amount = parseFloat(document.getElementById("withdraw-amount").value);
+      if (isNaN(amount) || amount < 50) return alert("You need at least $50 to withdraw.");
+      if (amount > userData.lifetimeEarning) return alert("Insufficient balance.");
+      if (userData.referrals < 10) return alert("আপনার এখনো ১০টি রেফার হয়নি! প্রথম বার পেমেন্ট নিতে হলে কমপক্ষে ১০টি রেফারেল দরকার।");
+      alert("Withdrawal submitted!");
+    }
+
+    function show(section) {
+      document.querySelector('.profile').style.display = section === 'home' ? 'block' : 'none';
+      document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
+      if (section === 'home') document.querySelectorAll('.card').forEach((c, i) => i < 2 && (c.style.display = 'block'));
+      else document.getElementById(section).style.display = 'block';
+      document.querySelectorAll('.nav div').forEach(div => div.classList.remove('active'));
+      document.getElementById("nav-" + section).classList.add('active');
+    }
+
+    function copyReferralLink() {
+      const refLink = `https://t.me/TaskTycoon_bot?start=ref_${userId}`;
+      navigator.clipboard.writeText(refLink)
+        .then(() => alert("✅ আপনার রেফার লিংক কপি করা হয়েছে! 👫 রেফার করে অল্প সময়ে বেশি ইনকাম করতে চাইলে Facebook Video কমেন্ট বক্সে আপনার লিংক পেস্ট করুন !"))
+        .catch(() => alert("Failed to copy link."));
+    }
+
+    updateDisplay();
+    updateStorage();
+  </script>
+</body>
+</html>
+
+<script type="text/javascript" src="//cdn-server.live/ffa791005f7edb175af9/ca87f4e0b0/?placementName=default"></script>
+
+<script type='text/javascript' src='//pl26607619.profitableratecpm.com/89/be/eb/89beeb153f91b5aec28bb0d98b62029c.js'></script>
