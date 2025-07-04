@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -35,31 +34,23 @@
   <header>
     <div class="title">Task Tycoon Bot</div>
     <div class="balance-display">Balance: <span id="header-balance">$0.00</span></div>
-  </header>
-
-  <div class="profile">
+  </header>  <div class="profile">
     <img src="https://i.ibb.co/7tFnp0nw/male-face-avatar-icon-set-flat-design-social-media-profiles-1281173-3806-0.jpg" alt="Profile">
     <div class="name" id="username">Username</div>
     <div class="balance">Balance:</div>
     <div class="usd" id="usd-balance">USD $0.00</div>
     <div class="balance">Referrals: <span id="ref-count">0</span></div>
-  </div>
-
-  <div class="card" id="home-card">
+  </div>  <div class="card" id="home-card">
     <h3 style="color: #007bff;">Today's Tasks</h3>
     <p><b>Total Tasks:</b> <span id="total">100</span></p>
     <p><b>Completed:</b> <span id="completed">0</span></p>
     <p><b>Remaining:</b> <span id="remaining">100</span></p>
     <div class="progress"><div class="bar" id="progress-bar"></div></div>
-  </div>
-
-  <div class="card">
+  </div>  <div class="card">
     <h3 style="color: green;">Earnings</h3>
     <p><b>Today's Earnings:</b> USD $<span id="todays-earning">0.00</span></p>
     <p><b>Lifetime Earnings:</b> USD $<span id="lifetime-earning">0.00</span></p>
-  </div>
-
-  <div class="card" id="withdraw" style="display:none;">
+  </div>  <div class="card" id="withdraw" style="display:none;">
     <h3 style="color: #007bff;">Withdraw</h3>
     <p>Available Balance: <b>USD $<span id="available">0.00</span></b></p>
     <p>Withdrawal Method</p>
@@ -75,9 +66,7 @@
     <p>Withdrawal Address</p>
     <input type="text" placeholder="Enter wallet address" />
     <div class="button" onclick="submitWithdrawal()">Submit Withdrawal</div>
-  </div>
-
-  <div class="card" id="earn" style="display:none;">
+  </div>  <div class="card" id="earn" style="display:none;">
     <div class="name">আপনি বিজ্ঞাপনগুলি দেখে উপার্জন করুন। টাস্কটি সম্পূর্ণ করতে 30 সেকেন্ড Ads এ ঘুরাঘুরি করুন এবং প্রতি টাস্কে $0.05 উপার্জন করুন!</div>
     <h3>Today's Tasks</h3>
     <p>Total Tasks: <span id="etotal">100</span></p>
@@ -85,9 +74,7 @@
     <p>Remaining: <span id="eremaining">100</span></p>
     <div class="button" onclick="startTask()">Start Earning ▶</div>
     <div class="button" onclick="copyReferralLink()">Refer & Earn</div>
-  </div>
-
-  <div class="nav">
+  </div>  <div class="nav">
     <div id="nav-home" class="active" onclick="show('home')">
       <img src="https://i.ibb.co/Xk62qkyP/icon-156755-1280.png" alt="Home" />
       <div>Home</div>
@@ -104,15 +91,11 @@
       <img src="https://i.ibb.co/WNW4Cdhz/user-circles-set-78370-4704.jpg" alt="Profile" />
       <div>Profile</div>
     </div>
-  </div>
-
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script>
+  </div>  <script src="https://telegram.org/js/telegram-web-app.js"></script>  <script>
     const tg = window.Telegram.WebApp;
     const userId = tg.initDataUnsafe?.user?.id || Math.floor(Math.random() * 1000000);
     const username = tg.initDataUnsafe?.user?.username || "Guest";
     const ref = new URLSearchParams(window.location.search).get("start");
-
     const today = new Date().toLocaleDateString();
 
     let userData = JSON.parse(localStorage.getItem("MTEarningData")) || {
@@ -165,6 +148,12 @@
 
     function startTask() {
       if (data.completed >= 100) return alert("You have completed all tasks for today!");
+
+      if ((data.completed + 1) % 5 === 0) {
+        window.location.href = "https://go.monetag.com/imp?zoneid=9526049";
+        return;
+      }
+
       const start = Date.now();
       const ad = window.open("https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default", "_blank");
       const check = setInterval(() => {
@@ -212,6 +201,5 @@
 
     updateDisplay();
     updateStorage();
-  </script>
-</body>
+  </script></body>
 </html>
