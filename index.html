@@ -3,111 +3,92 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Task Tycoon Bot</title>
-  <script>
-    // Monetag Script
-    window.monetag = window.monetag || { cmd: [] };
-    monetag.cmd.push(function() {
-      monetag.loadTag("9526255");
-    });
-  </script>
-  <script src="https://monetag.com/script.js"></script>
+  <title>Monetag Task Bot</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: sans-serif;
       background: #f9f9f9;
       margin: 0;
-      padding-bottom: 80px;
+      padding-bottom: 70px;
     }
     header {
-      background: #fff;
-      padding: 10px 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 1px 5px rgba(0,0,0,0.1);
-    }
-    header .title {
-      font-size: 18px;
-      color: #007bff;
-    }
-    header .balance {
-      color: green;
-      font-weight: bold;
+      background: #007bff;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 20px;
     }
     .container {
       padding: 20px;
     }
     .button {
-      display: block;
-      width: 100%;
-      background: #007bff;
-      color: #fff;
+      background: #28a745;
+      color: white;
+      padding: 15px;
       text-align: center;
-      padding: 12px;
       border-radius: 8px;
-      font-size: 16px;
-      margin-top: 20px;
       cursor: pointer;
+      font-size: 18px;
+      margin-top: 20px;
     }
-    .status {
-      text-align: center;
-      margin-top: 15px;
-      font-weight: bold;
+    .balance {
+      margin-top: 20px;
+      font-size: 16px;
     }
   </style>
 </head>
 <body>
+  <header>Task Bot</header>
+  <div class="container">
+    <div>👤 Username: <span id="username">Loading...</span></div>
+    <div class="balance">💰 Balance: $<span id="balance">0.00</span></div>
+    <div class="button" onclick="startTask()">▶ Start Task</div>
+  </div>
 
-<header>
-  <div class="title">Task Tycoon Bot</div>
-  <div class="balance">Balance: $<span id="balance">0.00</span></div>
-</header>
+  <!-- Monetag Ad Script -->
+  <script>
+    (function(m,o,n,e,t,a,g){
+        m['MoneTagObject']=t;m[t]=m[t]||function(){(m[t].q=m[t].q||[]).push(arguments)},
+        m[t].l=1*new Date();a=o.createElement(n),g=o.getElementsByTagName(n)[0];
+        a.async=1;a.src=e;g.parentNode.insertBefore(a,g)
+    })(window,document,'script','https://monetag.tag/display.js','monetag');
+    monetag('zone', '9526255');
+  </script>
 
-<div class="container">
-  <h2>Hello, <span id="username">Guest</span>!</h2>
-  <p>Click the button below to complete a task and earn $0.05 after watching the ad for 30 seconds.</p>
-  <div class="button" onclick="startTask()">Start Task ▶</div>
-  <div class="status" id="statusText"></div>
-</div>
+  <!-- Telegram + Task Logic -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+    const tg = window.Telegram.WebApp;
+    const user = tg.initDataUnsafe?.user?.username || "Guest";
+    document.getElementById("username").innerText = user;
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script>
-  const tg = window.Telegram.WebApp;
-  const username = tg?.initDataUnsafe?.user?.username || "Guest";
-  document.getElementById("username").innerText = username;
+    let balance = parseFloat(localStorage.getItem("monetag_balance")) || 0;
 
-  let totalEarning = parseFloat(localStorage.getItem("monetag_earning") || "0");
+    function updateBalanceDisplay() {
+      document.getElementById("balance").innerText = balance.toFixed(2);
+    }
 
-  function updateBalance() {
-    document.getElementById("balance").innerText = totalEarning.toFixed(2);
-  }
+    function startTask() {
+      const start = Date.now();
+      const adWin = window.open("https://www.google.com", "_blank");
 
-  function startTask() {
-    const adUrl = "https://monetag.com/partner/ads/open/9526255";
-    const opened = window.open(adUrl, "_blank");
-
-    const start = Date.now();
-    document.getElementById("statusText").innerText = "⏳ Ad is opened... Please wait 30 seconds.";
-
-    const checkInterval = setInterval(() => {
-      if (opened.closed) {
-        clearInterval(checkInterval);
-        const duration = (Date.now() - start) / 1000;
-        if (duration >= 30) {
-          totalEarning += 0.05;
-          localStorage.setItem("monetag_earning", totalEarning.toString());
-          updateBalance();
-          document.getElementById("statusText").innerText = "✅ Task completed! $0.05 added.";
-        } else {
-          document.getElementById("statusText").innerText = "❌ You must view the ad for at least 30 seconds!";
+      const check = setInterval(() => {
+        if (adWin && adWin.closed) {
+          clearInterval(check);
+          const duration = (Date.now() - start) / 1000;
+          if (duration >= 30) {
+            balance += 0.05;
+            localStorage.setItem("monetag_balance", balance.toFixed(2));
+            updateBalanceDisplay();
+            alert("✅ Task completed! $0.05 added.");
+          } else {
+            alert("⚠️ You must stay for at least 30 seconds.");
+          }
         }
-      }
-    }, 500);
-  }
+      }, 500);
+    }
 
-  updateBalance();
-</script>
-
+    updateBalanceDisplay();
+  </script>
 </body>
 </html>
