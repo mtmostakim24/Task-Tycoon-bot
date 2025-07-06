@@ -1,94 +1,1294 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Monetag Task Bot</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Earning545 | Premium Earning Platform</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body {
-      font-family: sans-serif;
-      background: #f9f9f9;
+    * {
       margin: 0;
-      padding-bottom: 70px;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, sans-serif;
     }
+    
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #4cc9f0;
+      --success: #4ade80;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --card-bg: #ffffff;
+      --body-bg: #f1f5f9;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      --transition: all 0.3s ease;
+    }
+    
+    body {
+      background-color: var(--body-bg);
+      color: var(--dark);
+      padding-bottom: 80px;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    }
+    
+    /* Header Styles */
     header {
-      background: #007bff;
-      color: white;
-      padding: 15px;
-      text-align: center;
-      font-size: 20px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
-    .container {
+    
+    header .title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    
+    header .title i {
+      font-size: 1.5rem;
+    }
+    
+    header .balance-display {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      color: white;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    /* Profile Section */
+    .profile-container {
+      position: relative;
+      padding: 20px 0 30px;
+      overflow: hidden;
+    }
+    
+    .profile-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70%;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      z-index: 0;
+      border-radius: 0 0 30px 30px;
+    }
+    
+    .profile {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: white;
+      padding: 15px;
+      border-radius: 15px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+    
+    .profile-img-container {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid rgba(67, 97, 238, 0.2);
+      box-shadow: var(--shadow);
+    }
+    
+    .profile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .profile-info {
+      text-align: left;
+      flex: 1;
+    }
+    
+    .name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      color: var(--dark);
+    }
+    
+    .user-id {
+      font-size: 0.85rem;
+      color: var(--primary);
+      background: rgba(67, 97, 238, 0.1);
+      padding: 3px 8px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+    
+    /* Stats Section */
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .stat-card {
+      background: white;
+      border-radius: 12px;
+      padding: 15px 10px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    
+    .stat-label {
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 5px;
+    }
+    
+    /* Card Styles */
+    .card {
+      background: var(--card-bg);
+      margin: 15px;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 5px;
+      width: 100%;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+    }
+    
+    .card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+    
+    .card-header i {
+      width: 40px;
+      height: 40px;
+      background: rgba(67, 97, 238, 0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+    
+    .card-header h3 {
+      font-size: 1.1rem;
+      color: var(--dark);
+    }
+    
+    .card-content {
+      padding: 5px 0;
+    }
+    
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .info-row:last-child {
+      border-bottom: none;
+    }
+    
+    .info-label {
+      font-weight: 500;
+      color: #666;
+    }
+    
+    .info-value {
+      font-weight: 700;
+      color: var(--dark);
+    }
+    
+    .progress-container {
+      margin-top: 20px;
+    }
+    
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    
+    .progress {
+      height: 12px;
+      background: #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      border-radius: 10px;
+      transition: var(--transition);
+    }
+    
+    /* Profile Page Styles */
+    #profile-page {
+      display: none;
       padding: 20px;
     }
+    
+    .profile-card {
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+    
+    .profile-section {
+      margin-bottom: 25px;
+    }
+    
+    .profile-section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    
+    .profile-info-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .profile-info-item:last-child {
+      border-bottom: none;
+    }
+    
+    .info-title {
+      color: #666;
+    }
+    
+    .info-data {
+      font-weight: 600;
+      color: var(--dark);
+    }
+    
+    .referral-section {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .referral-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .referral-stat {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 15px;
+      padding: 15px;
+      text-align: center;
+      backdrop-filter: blur(5px);
+    }
+    
+    .referral-stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    
+    .referral-stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    
+    .referral-link {
+      background: white;
+      color: var(--primary);
+      padding: 15px;
+      border-radius: 15px;
+      font-weight: 500;
+      margin: 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    /* Button Styles */
     .button {
-      background: #28a745;
+      display: block;
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       color: white;
       padding: 15px;
       text-align: center;
-      border-radius: 8px;
+      border-radius: 15px;
+      margin-top: 15px;
+      font-weight: 600;
       cursor: pointer;
-      font-size: 18px;
-      margin-top: 20px;
+      transition: var(--transition);
+      box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+      border: none;
+      font-size: 1rem;
     }
-    .balance {
-      margin-top: 20px;
-      font-size: 16px;
+    
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
+    }
+    
+    .button-secondary {
+      background: white;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      box-shadow: none;
+    }
+    
+    .button-secondary:hover {
+      background: #f8fafc;
+      transform: none;
+    }
+    
+    /* Input Styles - Fixed sizing */
+    .input-group {
+      margin-bottom: 15px;
+    }
+    
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--dark);
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      background: #f8fafc;
+      transition: var(--transition);
+    }
+    
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+    }
+    
+    /* Navigation */
+    .nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      background: var(--card-bg);
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+      padding: 10px 0;
+      z-index: 100;
+    }
+    
+    .nav-item {
+      text-align: center;
+      font-size: 0.7rem;
+      cursor: pointer;
+      color: #666;
+      transition: var(--transition);
+      width: 70px;
+    }
+    
+    .nav-icon {
+      width: 24px;
+      height: 24px;
+      margin: 0 auto 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f1f5f9;
+      border-radius: 10px;
+      padding: 12px;
+      transition: var(--transition);
+    }
+    
+    .nav-item.active {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    
+    .nav-item.active .nav-icon {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
+    }
+    
+    .nav-label {
+      font-size: 0.75rem;
+    }
+    
+    /* Task Counter */
+    .task-counter {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+    }
+    
+    .counter-item {
+      text-align: center;
+      background: #f8fafc;
+      border-radius: 15px;
+      padding: 15px;
+      flex: 1;
+      margin: 0 5px;
+    }
+    
+    .counter-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    
+    .counter-label {
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 5px;
+    }
+    
+    /* Task Visualization */
+    .task-visualization {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin: 20px 0;
+    }
+    
+    .task-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #e2e8f0;
+    }
+    
+    .task-dot.completed {
+      background: var(--success);
+    }
+    
+    /* Notification */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: white;
+      padding: 15px 25px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transform: translateX(120%);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .notification.show {
+      transform: translateX(0);
+    }
+    
+    .notification.success {
+      border-left: 4px solid var(--success);
+    }
+    
+    .notification.error {
+      border-left: 4px solid var(--danger);
+    }
+    
+    .notification.warning {
+      border-left: 4px solid var(--warning);
+    }
+    
+    /* Responsive */
+    @media (min-width: 768px) {
+      .cards-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin: 15px;
+      }
+      
+      .card {
+        margin: 0;
+      }
+      
+      .profile {
+        max-width: 600px;
+      }
     }
   </style>
 </head>
 <body>
-  <header>Task Bot</header>
-  <div class="container">
-    <div>👤 Username: <span id="username">Loading...</span></div>
-    <div class="balance">💰 Balance: $<span id="balance">0.00</span></div>
-    <div class="button" onclick="startTask()">▶ Start Task</div>
+  <div class="notification" id="notification">
+    <i class="fas fa-check-circle"></i>
+    <span id="notification-message">Notification message</span>
   </div>
-
-  <!-- Monetag Ad Script -->
+  
+  <header>
+    <div class="title">
+      <i class="fas fa-robot"></i>
+      <span>Daily Earning545</span>
+    </div>
+    <div class="balance-display">
+      <i class="fas fa-wallet"></i>
+      <span id="header-balance">$0.000</span>
+    </div>
+  </header>
+  
+  <div class="profile-container" id="home-profile">
+    <div class="profile">
+      <div class="profile-header">
+        <div class="profile-img-container">
+          <img src="https://i.ibb.co/6R45cM6C/Polish-20250529-015530961.jpg" alt="Profile">
+        </div>
+        <div class="profile-info">
+          <div class="name" id="username">Username</div>
+          <div class="user-id">ID: <span id="user-id">123456</span></div>
+        </div>
+      </div>
+      
+      <div class="stats-container">
+        <div class="stat-card">
+          <div class="stat-value" id="total-earned">$0.000</div>
+          <div class="stat-label">Total Earned</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="tasks-completed">0</div>
+          <div class="stat-label">Tasks Done</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Home Page Content -->
+  <div class="cards-container" id="home-content">
+    <div class="card">
+      <div class="card-header">
+        <i class="fas fa-tasks"></i>
+        <h3>Today's Tasks</h3>
+      </div>
+      <div class="card-content">
+        <div class="info-row">
+          <span class="info-label">Total Tasks</span>
+          <span class="info-value" id="total">100</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Completed</span>
+          <span class="info-value" id="completed-card">0</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Remaining</span>
+          <span class="info-value" id="remaining-card">100</span>
+        </div>
+        
+        <div class="progress-container">
+          <div class="progress-header">
+            <span class="info-label">Task Progress</span>
+            <span class="info-value" id="progress-percent">0%</span>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" id="progress-bar"></div>
+          </div>
+        </div>
+        
+        <div class="task-visualization" id="task-visual">
+          <!-- Task dots will be generated here -->
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-header">
+        <i class="fas fa-chart-line"></i>
+        <h3>Earnings</h3>
+      </div>
+      <div class="card-content">
+        <div class="info-row">
+          <span class="info-label">Today's Earnings</span>
+          <span class="info-value">USD $<span id="todays-earning">0.000</span></span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Lifetime Earnings</span>
+          <span class="info-value">USD $<span id="lifetime-earning">0.000</span></span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Avg. per Task</span>
+          <span class="info-value">$0.025</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="referral-section">
+      <div class="referral-header">
+        <i class="fas fa-users"></i>
+        <h3>Refer & Earn</h3>
+      </div>
+      
+      <div class="referral-content">
+        <p>Invite friends and earn $1 for each successful referral. Share your link and start earning!</p>
+        
+        <div class="referral-stats">
+          <div class="referral-stat">
+            <div class="referral-stat-value" id="ref-earned">$0</div>
+            <div class="referral-stat-label">Referral Earnings</div>
+          </div>
+          <div class="referral-stat">
+            <div class="referral-stat-value" id="referral-count">0</div>
+            <div class="referral-stat-label">Referrals</div>
+          </div>
+        </div>
+        
+        <div class="referral-link">
+          <span id="ref-link">https://t.me/Daily_Earning_545_Bot?start=ref_123456</span>
+          <i class="fas fa-copy" onclick="copyReferralLink()"></i>
+        </div>
+        
+        <button class="button" onclick="shareReferralLink()">
+          <i class="fas fa-share-alt"></i> Share Referral Link
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Withdraw Section -->
+  <div class="card" id="withdraw" style="display:none;">
+    <div class="card-header">
+      <i class="fas fa-money-bill-wave"></i>
+      <h3>Withdraw Funds</h3>
+    </div>
+    <div class="card-content">
+      <div class="info-row">
+        <span class="info-label">Available Balance</span>
+        <span class="info-value">USD $<span id="available">0.000</span></span>
+      </div>
+      
+      <div class="input-group">
+        <label>Withdrawal Method</label>
+        <select id="withdraw-method">
+          <option>Select a method</option>
+          <option>Bkash $30</option>
+          <option>Nagad $30</option>
+          <option>Payeer $50</option>
+          <option>USDT (TRC20) $50</option>
+          <option>Skrill $30</option>
+          <option>Neteller $30</option>
+          <option>Perfect Money $50</option>
+        </select>
+      </div>
+      
+      <div class="input-group">
+        <label>Amount (USD)</label>
+        <input type="text" id="withdraw-amount" placeholder="Enter amount">
+      </div>
+      
+      <div class="input-group">
+        <label>Withdrawal Address</label>
+        <input type="text" id="withdraw-address" placeholder="Enter wallet address">
+      </div>
+      
+      <button class="button" onclick="submitWithdrawal()">
+        <i class="fas fa-paper-plane"></i> Submit Withdrawal
+      </button>
+    </div>
+  </div>
+  
+  <!-- Earn Section -->
+  <div id="earn" style="display:none;">
+    <div class="card">
+      <div class="card-header">
+        <i class="fas fa-coins"></i>
+        <h3>Earn Money</h3>
+      </div>
+      <div class="card-content">
+        <p class="info-label" style="margin-bottom: 20px; text-align: center;">
+          <i class="fas fa-info-circle"></i> Earn money by viewing ads. Stay on the ad page for 15 seconds to complete a task and earn $0.025 per task!
+        </p>
+        
+        <div class="task-counter">
+          <div class="counter-item">
+            <div class="counter-value" id="etotal">100</div>
+            <div class="counter-label">Total Tasks</div>
+          </div>
+          <div class="counter-item">
+            <div class="counter-value" id="ecompleted">0</div>
+            <div class="counter-label">Completed</div>
+          </div>
+          <div class="counter-item">
+            <div class="counter-value" id="eremaining">100</div>
+            <div class="counter-label">Remaining</div>
+          </div>
+        </div>
+        
+        <div class="progress-container">
+          <div class="progress-header">
+            <span class="info-label">Task Progress</span>
+            <span class="info-value" id="earn-progress-percent">0%</span>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" id="earn-progress-bar"></div>
+          </div>
+        </div>
+        
+        <button class="button" onclick="startTask()">
+          <i class="fas fa-play"></i> Start Earning ▶
+        </button>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-header">
+        <i class="fas fa-trophy"></i>
+        <h3>Task Completion</h3>
+      </div>
+      <div class="card-content">
+        <div class="task-visualization" id="earn-task-visual">
+          <!-- Task dots will be generated here -->
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Profile Page -->
+  <div id="profile-page">
+    <div class="profile-card">
+      <div class="profile-section">
+        <div class="profile-section-title">
+          <i class="fas fa-user-circle"></i>
+          <h3>Account Information</h3>
+        </div>
+        
+        <div class="profile-info-item">
+          <div class="info-title">Username</div>
+          <div class="info-data" id="profile-username">Username</div>
+        </div>
+        
+        <div class="profile-info-item">
+          <div class="info-title">User ID</div>
+          <div class="info-data" id="profile-user-id">123456</div>
+        </div>
+        
+        <div class="profile-info-item">
+          <div class="info-title">Join Date</div>
+          <div class="info-data" id="join-date">2023-10-15</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="profile-card">
+      <div class="profile-section">
+        <div class="profile-section-title">
+          <i class="fas fa-wallet"></i>
+          <h3>Financial Summary</h3>
+        </div>
+        
+        <div class="profile-info-item">
+          <div class="info-title">Current Balance</div>
+          <div class="info-data" id="profile-balance">$0.000</div>
+        </div>
+        
+        <div class="profile-info-item">
+          <div class="info-title">Total Withdrew</div>
+          <div class="info-data" id="profile-withdrew">$0.000</div>
+        </div>
+        
+        <div class="profile-info-item">
+          <div class="info-title">Today's Earnings</div>
+          <div class="info-data" id="profile-today-earning">$0.000</div>
+        </div>
+        
+        <div class="profile-info-item">
+          <div class="info-title">Lifetime Earnings</div>
+          <div class="info-data" id="profile-lifetime-earning">$0.000</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="profile-card">
+      <div class="profile-section">
+        <div class="profile-section-title">
+          <i class="fas fa-users"></i>
+          <h3>Referral Program</h3>
+        </div>
+        
+        <div class="profile-info-item">
+          <div class="info-title">Total Referrals</div>
+          <div class="info-data" id="profile-refer-count">0</div>
+        </div>
+        
+        <div class="profile-info-item">
+          <div class="info-title">Referral Earnings</div>
+          <div class="info-data" id="profile-refer-earnings">$0.000</div>
+        </div>
+        
+        <div class="profile-info-item">
+          <div class="info-title">Pending Referrals</div>
+          <div class="info-data" id="profile-pending-refs">0</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="referral-section">
+      <div class="referral-header">
+        <i class="fas fa-share-alt"></i>
+        <h3>Share Your Referral Link</h3>
+      </div>
+      
+      <div class="referral-content">
+        <p>Earn $1 for every friend who signs up using your referral link!</p>
+        
+        <div class="referral-link">
+          <span id="profile-ref-link">https://t.me/Daily_Earning_545_Bot?start=ref_123456</span>
+          <i class="fas fa-copy" onclick="copyReferralLink()"></i>
+        </div>
+        
+        <button class="button" onclick="shareReferralLink()">
+          <i class="fas fa-share-alt"></i> Share Referral Link
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="nav">
+    <div class="nav-item active" id="nav-home" onclick="show('home')">
+      <div class="nav-icon">
+        <i class="fas fa-home"></i>
+      </div>
+      <div class="nav-label">Home</div>
+    </div>
+    <div class="nav-item" id="nav-earn" onclick="show('earn')">
+      <div class="nav-icon">
+        <i class="fas fa-coins"></i>
+      </div>
+      <div class="nav-label">Earn</div>
+    </div>
+    <div class="nav-item" id="nav-withdraw" onclick="show('withdraw')">
+      <div class="nav-icon">
+        <i class="fas fa-wallet"></i>
+      </div>
+      <div class="nav-label">Withdraw</div>
+    </div>
+    <div class="nav-item" id="nav-profile" onclick="show('profile')">
+      <div class="nav-icon">
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="nav-label">Profile</div>
+    </div>
+  </div>
+  
   <script>
-    (function(m,o,n,e,t,a,g){
-        m['MoneTagObject']=t;m[t]=m[t]||function(){(m[t].q=m[t].q||[]).push(arguments)},
-        m[t].l=1*new Date();a=o.createElement(n),g=o.getElementsByTagName(n)[0];
-        a.async=1;a.src=e;g.parentNode.insertBefore(a,g)
-    })(window,document,'script','https://monetag.tag/display.js','monetag');
-    monetag('zone', '9526255');
-  </script>
+    const userId = Math.floor(Math.random() * 1000000);
+    const username = "User" + userId;
+    const today = new Date().toLocaleDateString();
 
-  <!-- Telegram + Task Logic -->
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script>
-    const tg = window.Telegram.WebApp;
-    const user = tg.initDataUnsafe?.user?.username || "Guest";
-    document.getElementById("username").innerText = user;
+    // Initialize user data
+    let userData = JSON.parse(localStorage.getItem("MTEarningData")) || {
+      userId, 
+      username, 
+      referrals: 0,
+      referralEarnings: 0,
+      pendingReferrals: 0,
+      lifetimeEarning: 0,
+      withdrew: 0,
+      totalTasks: 0,
+      joinDate: new Date().toLocaleDateString()
+    };
 
-    let balance = parseFloat(localStorage.getItem("monetag_balance")) || 0;
+    let data = JSON.parse(localStorage.getItem("dailyEarningData")) || {
+      date: today, completed: 0, remaining: 100, todaysEarning: 0
+    };
 
-    function updateBalanceDisplay() {
-      document.getElementById("balance").innerText = balance.toFixed(2);
+    if (data.date !== today) {
+      data = { date: today, completed: 0, remaining: 100, todaysEarning: 0 };
+    }
+
+    // Initialize display
+    updateDisplay();
+
+    function updateStorage() {
+      localStorage.setItem("MTEarningData", JSON.stringify(userData));
+      localStorage.setItem("dailyEarningData", JSON.stringify(data));
+    }
+
+    function updateDisplay() {
+      // Update home screen
+      document.getElementById("username").innerText = username;
+      document.getElementById("user-id").innerText = userId;
+      document.getElementById("completed-card").innerText = data.completed;
+      document.getElementById("remaining-card").innerText = data.remaining;
+      document.getElementById("todays-earning").innerText = data.todaysEarning.toFixed(3);
+      document.getElementById("lifetime-earning").innerText = userData.lifetimeEarning.toFixed(3);
+      document.getElementById("available").innerText = userData.lifetimeEarning.toFixed(3);
+      document.getElementById("header-balance").innerText = "$" + userData.lifetimeEarning.toFixed(3);
+      
+      // Update progress bar
+      const progressPercent = (data.completed / 100 * 100);
+      document.getElementById("progress-bar").style.width = progressPercent + "%";
+      document.getElementById("progress-percent").innerText = progressPercent.toFixed(0) + "%";
+      
+      // Update profile stats
+      document.getElementById("total-earned").innerText = "$" + userData.lifetimeEarning.toFixed(3);
+      document.getElementById("tasks-completed").innerText = userData.totalTasks;
+      
+      // Update referral section
+      document.getElementById("ref-earned").innerText = "$" + userData.referralEarnings.toFixed(2);
+      document.getElementById("referral-count").innerText = userData.referrals;
+      document.getElementById("ref-link").innerText = `https://t.me/Daily_Earning_545_Bot?start=ref_${userId}`;
+      
+      // Update profile page
+      document.getElementById("profile-username").innerText = username;
+      document.getElementById("profile-user-id").innerText = userId;
+      document.getElementById("profile-balance").innerText = "$" + userData.lifetimeEarning.toFixed(3);
+      document.getElementById("profile-withdrew").innerText = "$" + userData.withdrew.toFixed(3);
+      document.getElementById("profile-refer-count").innerText = userData.referrals;
+      document.getElementById("profile-refer-earnings").innerText = "$" + userData.referralEarnings.toFixed(3);
+      document.getElementById("profile-today-earning").innerText = "$" + data.todaysEarning.toFixed(3);
+      document.getElementById("profile-lifetime-earning").innerText = "$" + userData.lifetimeEarning.toFixed(3);
+      document.getElementById("join-date").innerText = userData.joinDate;
+      document.getElementById("profile-pending-refs").innerText = userData.pendingReferrals;
+      document.getElementById("profile-ref-link").innerText = `https://t.me/Daily_Earning_545_Bot?start=ref_${userId}`;
+      
+      // Update earn section
+      document.getElementById("ecompleted").innerText = data.completed;
+      document.getElementById("eremaining").innerText = data.remaining;
+      document.getElementById("earn-progress-bar").style.width = progressPercent + "%";
+      document.getElementById("earn-progress-percent").innerText = progressPercent.toFixed(0) + "%";
+      
+      // Update task visualization
+      updateTaskVisualization();
+    }
+
+    function updateTaskVisualization() {
+      const homeVisual = document.getElementById("task-visual");
+      const earnVisual = document.getElementById("earn-task-visual");
+      homeVisual.innerHTML = "";
+      earnVisual.innerHTML = "";
+      
+      // Create 100 dots (10 rows of 10)
+      for (let i = 0; i < 10; i++) {
+        const row = document.createElement("div");
+        row.style.display = "flex";
+        row.style.justifyContent = "center";
+        row.style.gap = "5px";
+        row.style.marginBottom = "5px";
+        
+        for (let j = 0; j < 10; j++) {
+          const dot = document.createElement("div");
+          dot.className = "task-dot";
+          const index = i * 10 + j;
+          
+          if (index < data.completed) {
+            dot.classList.add("completed");
+          }
+          
+          row.appendChild(dot);
+        }
+        
+        homeVisual.appendChild(row.cloneNode(true));
+        earnVisual.appendChild(row.cloneNode(true));
+      }
+    }
+
+    // FIXED taskLinks array with commas
+    const taskLinks = [
+      "https://www.profitableratecpm.com/xi12f9t2ka?key=b4d48b8bf0cc620cc6eaff47ec2bf989",
+      "https://otieu.com/4/9453951",
+      "https://www.profitableratecpm.com/yppak428s?key=9cfcbb64a76c0c153ff07b5dcf3c6025",
+      "https://otieu.com/4/9453932",
+      "https://www.profitableratecpm.com/f8iikei3?key=33119cb486103a46370813277eacf7d5",
+      "https://otieu.com/4/9453944",
+      "https://www.profitableratecpm.com/aceejemvu?key=fac70a57e2295cbed71bbfd848a9cb0e",
+      "https://otieu.com/4/9453955",
+      "https://www.profitableratecpm.com/fstpz6h3b?key=52099a2067c8f5ed7a76532ac1657396",
+      "https://otieu.com/4/9453945",
+      "https://www.profitableratecpm.com/yb78vf3e4?key=2b7b3e9a4c7f7f8bf37199e48361bd84",
+      "https://otieu.com/4/9453941",
+      "https://www.profitableratecpm.com/uvhjwgzvvu?key=7d8eefe589a22bff00200aa016cdf4c5",
+      "https://otieu.com/4/9453948",
+      "https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb",
+      "https://otieu.com/4/9453954",
+      "https://www.profitableratecpm.com/y7my9aizec?key=0fd7a3fec9a14245c6c6195f254294db",
+      "https://otieu.com/4/9453950",
+      "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
+      "https://otieu.com/4/9453931",
+      "https://www.profitableratecpm.com/xqu4056vbg?key=c56bd280d6af1bab103452830a1cfcff",
+      "https://otieu.com/4/9452846",
+      "https://www.profitableratecpm.com/ysqpjek5h?key=832387bbca524e7c22bb700085d23d49",
+      "https://otieu.com/4/9453952",
+      "https://www.profitableratecpm.com/gw4zyy45z?key=50574ef50b71c2f6d5a020f48dae142f",
+      "https://otieu.com/4/9453947",
+      "https://www.profitableratecpm.com/sxvehv45s7?key=7a96e21e458cdc9c3619f1feed1cffa2",
+      "https://otieu.com/4/9453956",
+      "https://www.profitableratecpm.com/yppak428s?key=9cfcbb64a76c0c153ff07b5dcf3c6025",
+      "https://otieu.com/4/9453939",
+      "https://www.profitableratecpm.com/f8iikei3?key=33119cb486103a46370813277eacf7d5",
+      "https://otieu.com/4/9453953",
+      "https://www.profitableratecpm.com/aceejemvu?key=fac70a57e2295cbed71bbfd848a9cb0e",
+      "https://otieu.com/4/9453938",
+      "https://www.profitableratecpm.com/fstpz6h3b?key=52099a2067c8f5ed7a76532ac1657396",
+      "https://otieu.com/4/9453949",
+      "https://www.profitableratecpm.com/yb78vf3e4?key=2b7b3e9a4c7f7f8bf37199e48361bd84",
+      "https://otieu.com/4/9453943",
+      "https://www.profitableratecpm.com/uvhjwgzvvu?key=7d8eefe589a22bff00200aa016cdf4c5",
+      "https://otieu.com/4/9453942",
+      "https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb",
+      "https://otieu.com/4/9453951",
+      "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
+      "https://otieu.com/4/9453932",
+      "https://www.profitableratecpm.com/xqu4056vbg?key=c56bd280d6af1bab103452830a1cfcff",
+      "https://otieu.com/4/9453944",
+      "https://www.profitableratecpm.com/ysqpjek5h?key=832387bbca524e7c22bb700085d23d49",
+      "https://otieu.com/4/9453955",
+      "https://www.profitableratecpm.com/gw4zyy45z?key=50574ef50b71c2f6d5a020f48dae142f",
+      "https://otieu.com/4/9453945",
+      "https://www.profitableratecpm.com/sxvehv45s7?key=7a96e21e458cdc9c3619f1feed1cffa2",
+      "https://otieu.com/4/9453941",
+      "https://www.profitableratecpm.com/y7my9aizec?key=0fd7a3fec9a14245c6c6195f254294db",
+      "https://otieu.com/4/9453948",
+      "https://www.profitableratecpm.com/yppak428s?key=9cfcbb64a76c0c153ff07b5dcf3c6025",
+      "https://otieu.com/4/9453954",
+      "https://www.profitableratecpm.com/f8iikei3?key=33119cb486103a46370813277eacf7d5",
+      "https://otieu.com/4/9453950",
+      "https://www.profitableratecpm.com/aceejemvu?key=fac70a57e2295cbed71bbfd848a9cb0e",
+      "https://otieu.com/4/9453931",
+      "https://www.profitableratecpm.com/fstpz6h3b?key=52099a2067c8f5ed7a76532ac1657396",
+      "https://otieu.com/4/9452846",
+      "https://www.profitableratecpm.com/yb78vf3e4?key=2b7b3e9a4c7f7f8bf37199e48361bd84",
+      "https://otieu.com/4/9453952",
+      "https://www.profitableratecpm.com/uvhjwgzvvu?key=7d8eefe589a22bff00200aa016cdf4c5",
+      "https://otieu.com/4/9453947",
+      "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
+      "https://otieu.com/4/9453956",
+      "https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb",
+      "https://otieu.com/4/9453939",
+      "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
+      "https://otieu.com/4/9453953",
+      "https://www.profitableratecpm.com/xqu4056vbg?key=c56bd280d6af1bab103452830a1cfcff",
+      "https://otieu.com/4/9453938",
+      "https://www.profitableratecpm.com/ysqpjek5h?key=832387bbca524e7c22bb700085d23d49",
+      "https://otieu.com/4/9453949",
+      "https://www.profitableratecpm.com/gw4zyy45z?key=50574ef50b71c2f6d5a020f48dae142f",
+      "https://otieu.com/4/9453943",
+      "https://www.profitableratecpm.com/sxvehv45s7?key=7a96e21e458cdc9c3619f1feed1cffa2",
+      "https://otieu.com/4/9453942",
+      "https://www.profitableratecpm.com/y7my9aizec?key=0fd7a3fec9a14245c6c6195f254294db",
+      "https://otieu.com/4/9453941",
+      "https://www.profitableratecpm.com/yppak428s?key=9cfcbb64a76c0c153ff07b5dcf3c6025",
+      "https://otieu.com/4/9453948",
+      "https://www.profitableratecpm.com/f8iikei3?key=33119cb486103a46370813277eacf7d5",
+      "https://otieu.com/4/9453954",
+      "https://www.profitableratecpm.com/aceejemvu?key=fac70a57e2295cbed71bbfd848a9cb0e",
+      "https://otieu.com/4/9453950",
+      "https://www.profitableratecpm.com/fstpz6h3b?key=52099a2067c8f5ed7a76532ac1657396",
+      "https://otieu.com/4/9453931",
+      "https://www.profitableratecpm.com/yb78vf3e4?key=2b7b3e9a4c7f7f8bf37199e48361bd84",
+      "https://otieu.com/4/9453953",
+      "https://www.profitableratecpm.com/uvhjwgzvvu?key=7d8eefe589a22bff00200aa016cdf4c5",
+      "https://otieu.com/4/9453938",
+      "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
+      "https://otieu.com/4/9453949",
+      "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
+      "https://otieu.com/4/9453943",
+      "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
+      "https://otieu.com/4/9453942",
+      "https://www.profitableratecpm.com/xi12f9t2ka?key=b4d48b8bf0cc620cc6eaff47ec2bf989",
+    ];
+
+    function showNotification(message, type) {
+      const notification = document.getElementById("notification");
+      const messageElement = document.getElementById("notification-message");
+      
+      messageElement.textContent = message;
+      notification.className = "notification " + type;
+      notification.classList.add("show");
+      
+      setTimeout(() => {
+        notification.classList.remove("show");
+      }, 3000);
     }
 
     function startTask() {
+      if (data.completed >= 100) {
+        showNotification("You have completed all tasks for today!", "warning");
+        return;
+      }
+      
       const start = Date.now();
-      const adWin = window.open("https://www.google.com", "_blank");
-
+      const ad = window.open(taskLinks[data.completed % taskLinks.length], "_blank");
+      
+      if (!ad) {
+        showNotification("Please allow popups to complete tasks", "error");
+        return;
+      }
+      
       const check = setInterval(() => {
-        if (adWin && adWin.closed) {
+        if (ad.closed) {
           clearInterval(check);
           const duration = (Date.now() - start) / 1000;
-          if (duration >= 30) {
-            balance += 0.05;
-            localStorage.setItem("monetag_balance", balance.toFixed(2));
-            updateBalanceDisplay();
-            alert("✅ Task completed! $0.05 added.");
+          
+          if (duration >= 15) {
+            data.completed++;
+            data.remaining = 100 - data.completed;
+            data.todaysEarning += 0.025;
+            userData.lifetimeEarning += 0.025;
+            userData.totalTasks++;
+            updateStorage();
+            updateDisplay();
+            showNotification("✅ Task completed! $0.025 added to your balance.", "success");
           } else {
-            alert("⚠️ You must stay for at least 30 seconds.");
+            showNotification("⏱️ You must view the ad for at least 15 seconds to complete the task!", "error");
           }
         }
       }, 500);
     }
 
-    updateBalanceDisplay();
+    function submitWithdrawal() {
+      const amount = parseFloat(document.getElementById("withdraw-amount").value);
+      const method = document.getElementById("withdraw-method").value;
+      const address = document.getElementById("withdraw-address").value;
+      
+      if (isNaN(amount)) {
+        showNotification("Please enter a valid amount", "error");
+        return;
+      }
+      if (amount < 30) {
+        showNotification("Minimum withdrawal amount is $30", "error");
+        return;
+      }
+      if (amount > userData.lifetimeEarning) {
+        showNotification("Insufficient balance", "error");
+        return;
+      }
+      if (userData.referrals < 10) {
+        showNotification("You need at least 10 referrals to withdraw", "error");
+        return;
+      }
+      if (method === "Select a method") {
+        showNotification("Please select a withdrawal method", "error");
+        return;
+      }
+      if (!address) {
+        showNotification("Please enter your withdrawal address", "error");
+        return;
+      }
+      
+      // Update balance
+      userData.lifetimeEarning -= amount;
+      userData.withdrew += amount;
+      updateStorage();
+      updateDisplay();
+      showNotification("Withdrawal request submitted successfully! It will be processed within 24-48 hours.", "success");
+    }
+
+    function show(section) {
+      // Hide all sections first
+      document.getElementById("home-profile").style.display = "none";
+      document.getElementById("home-content").style.display = "none";
+      document.getElementById("withdraw").style.display = "none";
+      document.getElementById("earn").style.display = "none";
+      document.getElementById("profile-page").style.display = "none";
+      
+      // Show appropriate section
+      if (section === 'home') {
+        document.getElementById("home-profile").style.display = "block";
+        document.getElementById("home-content").style.display = "block";
+      } else if (section === 'withdraw') {
+        document.getElementById("withdraw").style.display = "block";
+      } else if (section === 'earn') {
+        document.getElementById("earn").style.display = "block";
+      } else if (section === 'profile') {
+        document.getElementById("profile-page").style.display = "block";
+      }
+      
+      // Update navigation
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      document.getElementById("nav-" + section).classList.add('active');
+    }
+
+    function copyReferralLink() {
+      const refLink = `https://t.me/Daily_Earning_545_Bot?start=ref_${userId}`;
+      navigator.clipboard.writeText(refLink)
+        .then(() => showNotification("✅ Referral link copied! You earn $1 for each successful referral.", "success"))
+        .catch(() => showNotification("Failed to copy link", "error"));
+    }
+    
+    function shareReferralLink() {
+      const refLink = `https://t.me/Daily_Earning_545_Bot?start=ref_${userId}`;
+      if (navigator.share) {
+        navigator.share({
+          title: 'Earn with Daily Earning545',
+          text: 'Join Daily Earning545 and start earning money by completing simple tasks!',
+          url: refLink
+        })
+        .then(() => console.log('Shared successfully'))
+        .catch((error) => showNotification('Sharing failed: ' + error, 'error'));
+      } else {
+        copyReferralLink();
+      }
+    }
+
+    // Initialize task visualization
+    updateTaskVisualization();
   </script>
 </body>
 </html>
